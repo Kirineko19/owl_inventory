@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $kelompok = isset($_POST["kelompok"]) ? $_POST["kelompok"] : null;
     $nama = isset($_POST["namaBahan"]) ? $_POST["namaBahan"] : null;
     $quantity = isset($_POST["quantity"]) ? $_POST["quantity"] : null;
+    $lokasiPenyimpanan = isset($_POST["lokasiPenyimpanan"]) ? $_POST["lokasiPenyimpanan"] : null;
     $deskripsi = isset($_POST["deskripsi"]) ? $_POST["deskripsi"] : null;
 
     $namaKelompokBaru = isset($_POST["namaKelompokBaru"]) ? $_POST["namaKelompokBaru"] : null;
@@ -57,9 +58,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $insertStmtKB->close();
     } elseif ($kelompok !== null) {
         // Insert the new record for material
-        $insertQuery = "INSERT INTO masterbahan (kelompok, nama, quantity, deskripsi) VALUES (?, ?, ?, ?)";
+        $insertQuery = "INSERT INTO masterbahan (kelompok, nama, quantity, lokasi_penyimpanan, deskripsi) VALUES (?, ?, ?, ?, ?)";
         $insertStmt = $conn->prepare($insertQuery);
-        $insertStmt->bind_param("ssis", $kelompok, $nama, $quantity, $deskripsi);
+        $insertStmt->bind_param("ssiss", $kelompok, $nama, $quantity, $lokasiPenyimpanan, $deskripsi);
 
         if ($insertStmt->execute()) {
             echo "Data berhasil ditambahkan ke tabel masterbahan.";
@@ -349,6 +350,10 @@ if (!$resultKelompok) {
                                         <!-- Input untuk kuantitas -->
                                         <input type="number" class="form-control" id="quantity" name="quantity" min="0" value="" placeholder="Masukkan jumlah stok bahan">
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lokasiPenyimpanan">Lokasi Penyimpanan<span class="gray-italic-text"> (opsional)</span></label>
+                                    <input type="text" class="form-control form-control-border border-width-2" id="lokasiPenyimpanan" name="lokasiPenyimpanan" placeholder="Contoh : Rak A2">
                                 </div>
                                 <div class="form-group">
                                     <label for="deskripsi">Deskripsi<span class="gray-italic-text"> (opsional)</span></label>
