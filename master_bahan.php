@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $kelompok = isset($_POST["kelompok"]) ? $_POST["kelompok"] : null;
     $nama = isset($_POST["namaBahan"]) ? $_POST["namaBahan"] : null;
     $quantity = isset($_POST["quantity"]) ? $_POST["quantity"] : null;
+    $hargaBahan = isset($_POST["hargaBahan"]) ? $_POST["hargaBahan"] : null;
     $lokasiPenyimpanan = isset($_POST["lokasiPenyimpanan"]) ? $_POST["lokasiPenyimpanan"] : null;
     $deskripsi = isset($_POST["deskripsi"]) ? $_POST["deskripsi"] : null;
 
@@ -58,9 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $insertStmtKB->close();
     } elseif ($kelompok !== null) {
         // Insert the new record for material
-        $insertQuery = "INSERT INTO masterbahan (kelompok, nama, quantity, lokasi_penyimpanan, deskripsi) VALUES (?, ?, ?, ?, ?)";
+        $insertQuery = "INSERT INTO masterbahan (kelompok, nama, quantity, harga_bahan, lokasi_penyimpanan, deskripsi) VALUES (?, ?, ?, ?, ?, ?)";
         $insertStmt = $conn->prepare($insertQuery);
-        $insertStmt->bind_param("ssiss", $kelompok, $nama, $quantity, $lokasiPenyimpanan, $deskripsi);
+        $insertStmt->bind_param("ssiiss", $kelompok, $nama, $quantity, $hargaBahan, $lokasiPenyimpanan, $deskripsi);
 
         if ($insertStmt->execute()) {
             echo "Data berhasil ditambahkan ke tabel masterbahan.";
@@ -347,8 +348,13 @@ if (!$resultKelompok) {
                                 <div class="form-group">
                                     <label for="quantity">Kuantitas <span style="color: red;">*</span></label>
                                     <div class="input-group">
-                                        <!-- Input untuk kuantitas -->
                                         <input type="number" class="form-control" id="quantity" name="quantity" min="0" value="" placeholder="Masukkan jumlah stok bahan">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Harga Bahan<span class="gray-italic-text"> (opsional)</span></label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="hargaBahan" name="hargaBahan" min="0" value="" placeholder="Masukkan harga bahan">
                                     </div>
                                 </div>
                                 <div class="form-group">
